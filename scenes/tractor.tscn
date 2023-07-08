@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://sp713b4no85m"]
+
+[ext_resource type="Texture2D" uid="uid://do07affposyse" path="res://assets/Myne.png" id="1_1khpi"]
+
+[node name="Tractor" type="Sprite2D"]
+modulate = Color(0.0862745, 0.580392, 0, 1)
+texture = ExtResource("1_1khpi")
+centered = false
+region_enabled = true
+region_rect = Rect2(73, 91, 16, 16)

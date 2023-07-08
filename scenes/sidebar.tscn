@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=3 uid="uid://kmbh41uyb5xi"]
+
+[ext_resource type="Script" path="res://scripts/game_ui.gd" id="1_xxt4n"]
+
+[node name="Sidebar" type="MarginContainer"]
+z_index = 1
+offset_right = 220.0
+offset_bottom = 638.0
+script = ExtResource("1_xxt4n")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Farming Game"
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ItemList" type="ItemList" parent="PanelContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/v_separation = 4
+item_count = 3
+item_0/text = "Buy"
+item_1/text = "Sell"
+item_2/text = ""
+item_2/selectable = false
+
+[node name="MarginContainer2" type="MarginContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_bottom = 4
+
+[node name="QuitButton" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+text = "Quit"
+alignment = 0

@@ -1,0 +1,39 @@
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://dl1ayd4f382hc"]
+
+[ext_resource type="FontFile" uid="uid://cyilwfha3c46c" path="res://assets/newfont.ttf" id="1_nynke"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qrpfg"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s5iyt"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5b1u4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tqial"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tiwv4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y5wl7"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_flk2j"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nxd4e"]
+bg_color = Color(0, 0, 0, 1)
+
+[resource]
+default_font = ExtResource("1_nynke")
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/styles/focus = SubResource("StyleBoxFlat_qrpfg")
+Button/styles/hover = SubResource("StyleBoxFlat_s5iyt")
+Button/styles/normal = SubResource("StyleBoxEmpty_5b1u4")
+Button/styles/pressed = SubResource("StyleBoxFlat_tqial")
+ItemList/colors/font_color = Color(1, 1, 1, 1)
+ItemList/styles/focus = SubResource("StyleBoxEmpty_tiwv4")
+ItemList/styles/panel = SubResource("StyleBoxFlat_y5wl7")
+ItemList/styles/selected_focus = SubResource("StyleBoxEmpty_flk2j")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_nxd4e")
