@@ -5,7 +5,7 @@
 [node name="SidebarBuy" type="MarginContainer"]
 z_index = 1
 offset_right = 220.0
-offset_bottom = 638.0
+offset_bottom = 639.0
 script = ExtResource("1_vw21r")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]

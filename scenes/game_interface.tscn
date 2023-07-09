@@ -14,3 +14,4 @@ script = ExtResource("1_nxygg")
 
 [node name="Sidebar" parent="." instance=ExtResource("2_s52mx")]
 layout_mode = 0
+offset_bottom = 639.0

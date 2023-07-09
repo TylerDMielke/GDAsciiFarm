@@ -1,11 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://wllrb68jnwlu"]
 
 [ext_resource type="Script" path="res://scripts/game_map.gd" id="1_lv0ab"]
-[ext_resource type="PackedScene" path="res://scenes/tile_map_myne.tscn" id="2_e7h3h"]
+[ext_resource type="PackedScene" uid="uid://bv0ux3dbjh8v" path="res://scenes/tile_map_myne.tscn" id="2_e7h3h"]
 
 [node name="GameMap" type="Node2D"]
 script = ExtResource("1_lv0ab")
 
-[node name="Foreground" parent="." instance=ExtResource("2_e7h3h")]
-
 [node name="Background" parent="." instance=ExtResource("2_e7h3h")]
+layer_0/name = "white"
+
+[node name="Foreground" parent="." instance=ExtResource("2_e7h3h")]
+layer_0/name = "white"

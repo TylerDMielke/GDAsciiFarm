@@ -2,20 +2,13 @@ extends Node2D
 
 @export var map_orig: Vector2i = Vector2i(0,0)
 @export var map_size: Vector2i = Vector2i(DisplayServer.window_get_size() / Vector2i(16, 16))
-@onready var foreground = $Foreground
-@onready var background = $Background
+@onready var foreground: TileMap = $Foreground
+@onready var background: TileMap = $Background
 
 var TILES = {
 	"PERIOD": Vector2i(14, 2),
-	"SQUARE": Vector2i(11, 13)
-}
-
-enum TILE_COLOR {
-	WHITE,
-	GREEN,
-	RED,
-	BLUE,
-	BLACK
+	"SQUARE": Vector2i(11, 13),
+	"STRAIGHT_FACE": Vector2i(0, 4),
 }
 
 
@@ -27,38 +20,41 @@ func _process(_delta):
 	pass
 
 
-func _create_color_layer(tilemap: String, color: Color) -> void:
-	# Creates a new layer on the selected tilemap with the color modulated.
-	# Args:
-	#	tilemap: The name of the tilemap that the new layer will be created on. Either "foreground" or "background" 	
-	# 	color: The color of the new layer
-	if tilemap.to_lower() == "foreground":
-		# Add layer to foreground
-		pass
-	elif tilemap.to_lower() == "background":
-		# Add layer to background
-		pass
+func _get_color_layer(tilemap: TileMap, color: Color) -> int:
+	for layer_idx in range(tilemap.get_layers_count()):
+		if tilemap.get_layer_modulate(layer_idx) == color:
+			return layer_idx
+	var new_layer_idx: int = tilemap.get_layers_count()
+	tilemap.add_layer(new_layer_idx)
+	tilemap.set_layer_modulate(new_layer_idx, color)
+	return new_layer_idx
 
 
-func update_foreground(coord: Vector2i, glyph: Vector2i, color: TILE_COLOR) -> void:
+func update_foreground(coord: Vector2i, glyph: Vector2i, color: Color) -> void:
 	# Update a tile on the foreground tilemap
 	# Args:
 	# 	coord: The coordinate on the foreground tilemap that will be updated.
 	#	glyph: The glyph that should be placed at the coordinate.
 	#	color: The color that the glyph should be.
-	foreground.set_cell(color, coord, 0, glyph)
+	var color_layer_idx: int = _get_color_layer(foreground, color)
+	for layer_idx in range(foreground.get_layers_count()):
+		foreground.erase_cell(layer_idx, coord)
+	foreground.set_cell(color_layer_idx, coord, 0, glyph)
 
 
-func update_background(coord: Vector2i, glyph: Vector2i, color: TILE_COLOR) -> void:
+func update_background(coord: Vector2i, glyph: Vector2i, color: Color) -> void:
 	# Update a tile on the background tilemap
 	# Args:
 	# 	coord: The coordinate on the background tilemap that will be updated.
 	#	glyph: The glyph that should be placed at the coordinate.
 	#	color: The color that the glyph should be.
-	background.set_cell(color, coord, 0, glyph)
+	var color_layer_idx: int = _get_color_layer(background, color)
+	for layer_idx in range(background.get_layers_count()):
+		background.erase_cell(layer_idx, coord)
+	background.set_cell(color_layer_idx, coord, 0, glyph)
 
 
-func fill_foreground(glyph: Vector2i, color: TILE_COLOR) -> void:
+func fill_foreground(glyph: Vector2i, color: Color) -> void:
 	# Fill the foreground tilemap with a single glyph
 	# Args:
 	#	glyph: The glyph that the foreground should be filled with.
@@ -69,7 +65,7 @@ func fill_foreground(glyph: Vector2i, color: TILE_COLOR) -> void:
 			update_foreground(update_cell, glyph, color)
 
 
-func fill_background(glyph: Vector2i, color: TILE_COLOR) -> void:
+func fill_background(glyph: Vector2i, color: Color) -> void:
 	# Fill the foreground tilemap with a single glyph
 	# Args:
 	#	glyph: The glyph that the foreground should be filled with.
