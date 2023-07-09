@@ -27,22 +27,53 @@ func _process(_delta):
 	pass
 
 
-func update_foreground(coord: Vector2i, glyph: Vector2i, color: TILE_COLOR):
+func _create_color_layer(tilemap: String, color: Color) -> void:
+	# Creates a new layer on the selected tilemap with the color modulated.
+	# Args:
+	#	tilemap: The name of the tilemap that the new layer will be created on. Either "foreground" or "background" 	
+	# 	color: The color of the new layer
+	if tilemap.to_lower() == "foreground":
+		# Add layer to foreground
+		pass
+	elif tilemap.to_lower() == "background":
+		# Add layer to background
+		pass
+
+
+func update_foreground(coord: Vector2i, glyph: Vector2i, color: TILE_COLOR) -> void:
+	# Update a tile on the foreground tilemap
+	# Args:
+	# 	coord: The coordinate on the foreground tilemap that will be updated.
+	#	glyph: The glyph that should be placed at the coordinate.
+	#	color: The color that the glyph should be.
 	foreground.set_cell(color, coord, 0, glyph)
 
 
-func update_background(coord: Vector2i, glyph: Vector2i, color: TILE_COLOR):
+func update_background(coord: Vector2i, glyph: Vector2i, color: TILE_COLOR) -> void:
+	# Update a tile on the background tilemap
+	# Args:
+	# 	coord: The coordinate on the background tilemap that will be updated.
+	#	glyph: The glyph that should be placed at the coordinate.
+	#	color: The color that the glyph should be.
 	background.set_cell(color, coord, 0, glyph)
 
 
-func fill_foreground(glyph: Vector2i, color: TILE_COLOR):
+func fill_foreground(glyph: Vector2i, color: TILE_COLOR) -> void:
+	# Fill the foreground tilemap with a single glyph
+	# Args:
+	#	glyph: The glyph that the foreground should be filled with.
+	#	color: The color that the glyph should be.
 	for x in range(map_orig.x, map_size.x):
 		for y in range(map_orig.y, map_size.y):
 			var update_cell = Vector2i(x,y)
 			update_foreground(update_cell, glyph, color)
 
 
-func fill_background(glyph: Vector2i, color: TILE_COLOR):
+func fill_background(glyph: Vector2i, color: TILE_COLOR) -> void:
+	# Fill the foreground tilemap with a single glyph
+	# Args:
+	#	glyph: The glyph that the foreground should be filled with.
+	#	color: The color that the glyph should be.
 	for x in range(map_orig.x, map_size.x):
 		for y in range(map_orig.y, map_size.y):
 			var update_cell = Vector2i(x,y)
