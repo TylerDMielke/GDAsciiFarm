@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var game_map: Node2D = $GameMap
-@onready var game_ui: MarginContainer = $GameUI
+@onready var game_ui: MarginContainer = $Sidebar
 @onready var debug_message_timer: Timer = Timer.new()
 
 

@@ -1,7 +1,5 @@
 extends MarginContainer
 
-@onready var buy_menu: PackedScene = preload("res://scenes/sidebar_buy.tscn")
-
 @onready var item_list: ItemList = $PanelContainer/VBoxContainer/MarginContainer/ItemList
 @onready var quit_button: Button = $PanelContainer/VBoxContainer/MarginContainer2/QuitButton
 
@@ -16,16 +14,10 @@ func _process(_delta):
 
 
 func _on_item_pressed(id: int):
-	if id == 0:
-		_load_buy_menu()
-	elif id == 1:
-		print_debug("Sell Pressed")
+	if get_parent().has_signal("display_sidebar"):
+		if id == 0:
+			get_parent().display_sidebar.emit("buy")
+		elif id == 1:
+			print_debug("Sell Pressed")
 
 
-func _load_buy_menu():
-	get_parent().add_child(buy_menu.instantiate())
-	queue_free()
-
-
-func _load_sell_menu():
-	pass

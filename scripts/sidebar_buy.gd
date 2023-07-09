@@ -1,7 +1,5 @@
 extends MarginContainer
 
-@onready var previous_menu: PackedScene = preload("res://scenes/sidebar.tscn")
-
 @onready var item_list: ItemList = $PanelContainer/VBoxContainer/MarginContainer/ItemList
 @onready var back_button: Button = $PanelContainer/VBoxContainer/MarginContainer2/BackButton
 
@@ -25,7 +23,5 @@ func _on_item_pressed(id: int):
 
 
 func _on_back_pressed():
-	print_debug("Previous Menu: {0}".format([previous_menu]))
-	print_debug("Parent Node: {0}".format([get_parent()]))
-	get_parent().add_child(previous_menu.instantiate())
-	queue_free()
+	if get_parent().has_signal("display_sidebar"):
+		get_parent().display_sidebar.emit("home")

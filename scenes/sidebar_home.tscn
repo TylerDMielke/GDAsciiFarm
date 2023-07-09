@@ -1,12 +1,12 @@
 [gd_scene load_steps=2 format=3 uid="uid://kmbh41uyb5xi"]
 
-[ext_resource type="Script" path="res://scripts/game_ui.gd" id="1_xxt4n"]
+[ext_resource type="Script" path="res://scripts/sidebar.gd" id="1_ot14y"]
 
-[node name="Sidebar" type="MarginContainer"]
+[node name="SidebarHome" type="MarginContainer"]
 z_index = 1
 offset_right = 220.0
 offset_bottom = 638.0
-script = ExtResource("1_xxt4n")
+script = ExtResource("1_ot14y")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 2
