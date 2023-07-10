@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3f4dhwwdgihw"]
+[gd_scene load_steps=4 format=3 uid="uid://c3f4dhwwdgihw"]
 
 [ext_resource type="Script" path="res://scripts/game_interface.gd" id="1_nxygg"]
-[ext_resource type="PackedScene" uid="uid://kmbh41uyb5xi" path="res://scenes/sidebar_home.tscn" id="2_s52mx"]
+[ext_resource type="PackedScene" uid="uid://kmbh41uyb5xi" path="res://scenes/sidebars/sidebar_home.tscn" id="2_rev8c"]
+[ext_resource type="Script" path="res://scripts/sidebars/sidebar_home.gd" id="3_6qwjd"]
 
 [node name="GameInterface" type="Control"]
 layout_mode = 3
@@ -12,6 +13,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_nxygg")
 
-[node name="Sidebar" parent="." instance=ExtResource("2_s52mx")]
+[node name="SidebarHome" parent="." instance=ExtResource("2_rev8c")]
 layout_mode = 0
-offset_bottom = 639.0
+script = ExtResource("3_6qwjd")

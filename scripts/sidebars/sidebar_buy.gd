@@ -18,9 +18,11 @@ func _on_item_pressed(id: int):
 		if get_parent().has_signal("display_sidebar"):
 			get_parent().display_sidebar.emit("buy_equipment")
 	elif id == 1:
-		print_debug("Buildings Pressed")
+		if get_parent().has_signal("display_sidebar"):
+			get_parent().display_sidebar.emit("buy_buildings")
 	elif id == 2:
-		print_debug("Supplies Pressed")
+		if get_parent().has_signal("display_sidebar"):
+			get_parent().display_sidebar.emit("buy_supplies")
 
 
 func _on_back_pressed():

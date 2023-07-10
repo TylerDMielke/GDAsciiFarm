@@ -1,12 +1,12 @@
 [gd_scene load_steps=2 format=3 uid="uid://kmbh41uyb5xi"]
 
-[ext_resource type="Script" path="res://scripts/sidebar_home.gd" id="1_q1agm"]
+[ext_resource type="Script" path="res://scripts/sidebars/sidebar_home.gd" id="1_rrlhf"]
 
 [node name="SidebarHome" type="MarginContainer"]
 z_index = 1
 offset_right = 224.0
 offset_bottom = 640.0
-script = ExtResource("1_q1agm")
+script = ExtResource("1_rrlhf")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 2
