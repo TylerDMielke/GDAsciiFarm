@@ -4,8 +4,8 @@
 
 [node name="SidebarHome" type="MarginContainer"]
 z_index = 1
-offset_right = 220.0
-offset_bottom = 638.0
+offset_right = 224.0
+offset_bottom = 640.0
 script = ExtResource("1_q1agm")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]

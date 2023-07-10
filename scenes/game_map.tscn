@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bv0ux3dbjh8v" path="res://scenes/tile_map_myne.tscn" id="2_e7h3h"]
 
 [node name="GameMap" type="Node2D"]
+position = Vector2(224, 0)
 script = ExtResource("1_lv0ab")
 
 [node name="Background" parent="." instance=ExtResource("2_e7h3h")]

@@ -18,16 +18,15 @@ func _ready():
 
 
 func _process(_delta):
-	var rand_point: Vector2i = Vector2i(randi_range(0, game_map.map_size.x), randi_range(0, game_map.map_size.y))
-	game_map.update_foreground(rand_point, game_map.TILES.STRAIGHT_FACE, Color.RED)
+	pass
 
 
 func _on_debug_timer_timeout():
 	# Print debug messages
 	print(">>> DEBUG")
-	var rand_point: Vector2i = Vector2i(randi_range(0, game_map.map_size.x), randi_range(0, game_map.map_size.y))
-	var rand_color: Color = test_colors[randi_range(0, test_colors.size())-1]
-	game_map.update_foreground(rand_point, game_map.TILES.STRAIGHT_FACE, rand_color)
+	# var rand_point: Vector2i = Vector2i(randi_range(game_map.map_orig.x, game_map.map_size.x), randi_range(game_map.map_orig.y, game_map.map_size.y))
+	# var rand_color: Color = test_colors[randi_range(0, test_colors.size())-1]
+	# game_map.update_foreground(rand_point, game_map.TILES.STRAIGHT_FACE, rand_color)
 	print("<<< DEBUG")
 
 
