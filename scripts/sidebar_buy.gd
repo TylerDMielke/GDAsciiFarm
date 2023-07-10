@@ -15,7 +15,8 @@ func _process(_delta):
 
 func _on_item_pressed(id: int):
 	if id == 0:
-		print_debug("Equipment Pressed")
+		if get_parent().has_signal("display_sidebar"):
+			get_parent().display_sidebar.emit("buy_equipment")
 	elif id == 1:
 		print_debug("Buildings Pressed")
 	elif id == 2:

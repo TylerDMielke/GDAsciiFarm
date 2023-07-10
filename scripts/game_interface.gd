@@ -4,6 +4,7 @@ signal display_sidebar(sidebar_name: String)
 
 @onready var sidebar_home: MarginContainer = preload("res://scenes/sidebar_home.tscn").instantiate()
 @onready var sidebar_buy: MarginContainer = preload("res://scenes/sidebar_buy.tscn").instantiate()
+@onready var sidebar_buy_equipment: MarginContainer = preload("res://scenes/sidebar_buy_equipment.tscn").instantiate()
 
 
 func _ready():
@@ -20,6 +21,8 @@ func _on_display_sidebar(sidebar_name: String) -> void:
 		add_child(sidebar_home)
 	elif sidebar_name.to_lower() == "buy":
 		add_child(sidebar_buy)
+	elif sidebar_name.to_lower() == "buy_equipment":
+		add_child(sidebar_buy_equipment)
 	
 
 func _remove_all_sidebars() -> void:
