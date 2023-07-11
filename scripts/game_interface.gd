@@ -2,11 +2,11 @@ extends Control
 
 signal display_sidebar(sidebar_name: String)
 
-@onready var sidebar_home: MarginContainer = preload("res://scenes/sidebars/sidebar_home.tscn").instantiate()
-@onready var sidebar_buy: MarginContainer = preload("res://scenes/sidebars/sidebar_buy.tscn").instantiate()
-@onready var sidebar_buy_equipment: MarginContainer = preload("res://scenes/sidebars/sidebar_buy_equipment.tscn").instantiate()
-@onready var sidebar_buy_buildings: MarginContainer = preload("res://scenes/sidebars/sidebar_buy_buildings.tscn").instantiate()
-@onready var sidebar_buy_supplies: MarginContainer = preload("res://scenes/sidebars/sidebar_buy_supplies.tscn").instantiate()
+@onready var sidebar_home: MarginContainer = $SidebarHome
+@onready var sidebar_buy: MarginContainer = $SidebarBuy
+@onready var sidebar_buy_equipment: MarginContainer = $SidebarBuyEquipment
+@onready var sidebar_buy_buildings: MarginContainer = $SidebarBuyBuildings
+@onready var sidebar_buy_supplies: MarginContainer = $SidebarBuySupplies
 
 
 func _ready():
@@ -18,30 +18,22 @@ func _process(_delta):
 
 
 func _on_display_sidebar(sidebar_name: String) -> void:
-	_remove_all_sidebars()
+	_hide_all_sidebars()
 	if sidebar_name.to_lower() == "home":
-		add_child(sidebar_home)
+		sidebar_home.show()
 	elif sidebar_name.to_lower() == "buy":
-		add_child(sidebar_buy)
+		sidebar_buy.show()
 	elif sidebar_name.to_lower() == "buy_equipment":
-		add_child(sidebar_buy_equipment)
+		sidebar_buy_equipment.show()
 	elif sidebar_name.to_lower() == "buy_buildings":
-		add_child(sidebar_buy_buildings)
+		sidebar_buy_buildings.show()
 	elif sidebar_name.to_lower() == "buy_supplies":
-		add_child(sidebar_buy_supplies)
+		sidebar_buy_supplies.show()
 	
 
-func _remove_all_sidebars() -> void:
-	print("Children in GameInterface Before Purge:")
-	for child in get_children():
-		print_debug("Child: {0}".format([child]))
-	print("\n")
-	for sidebar in find_children("*"):
-		print_debug("Removing Child: {0}".format([sidebar]))
-		remove_child(sidebar)
-		# sidebar.queue_free()
-	print("\n")
-	print("Children in GameInterface After Purge:")
-	for child in get_children():
-		print_debug("Child: {0}".format([child]))
-	print("\n")
+func _hide_all_sidebars() -> void:
+	sidebar_home.hide()
+	sidebar_buy.hide()
+	sidebar_buy_equipment.hide()
+	sidebar_buy_buildings.hide()
+	sidebar_buy_supplies.hide()

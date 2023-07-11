@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://c3f4dhwwdgihw"]
+[gd_scene load_steps=7 format=3 uid="uid://c3f4dhwwdgihw"]
 
 [ext_resource type="Script" path="res://scripts/game_interface.gd" id="1_nxygg"]
+[ext_resource type="PackedScene" uid="uid://byav1hk0y3bi1" path="res://scenes/sidebars/sidebar_buy_supplies.tscn" id="2_pjjy5"]
 [ext_resource type="PackedScene" uid="uid://kmbh41uyb5xi" path="res://scenes/sidebars/sidebar_home.tscn" id="2_rev8c"]
-[ext_resource type="Script" path="res://scripts/sidebars/sidebar_home.gd" id="3_6qwjd"]
+[ext_resource type="PackedScene" uid="uid://dgeka8xyivyab" path="res://scenes/sidebars/sidebar_buy_buildings.tscn" id="3_g1xxn"]
+[ext_resource type="PackedScene" uid="uid://drbdrjrr3ggip" path="res://scenes/sidebars/sidebar_buy_equipment.tscn" id="4_ayy8k"]
+[ext_resource type="PackedScene" uid="uid://blk6wefi6fr5a" path="res://scenes/sidebars/sidebar_buy.tscn" id="5_bg2jp"]
 
 [node name="GameInterface" type="Control"]
 layout_mode = 3
@@ -13,6 +16,21 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_nxygg")
 
+[node name="SidebarBuySupplies" parent="." instance=ExtResource("2_pjjy5")]
+visible = false
+layout_mode = 0
+
+[node name="SidebarBuyBuildings" parent="." instance=ExtResource("3_g1xxn")]
+visible = false
+layout_mode = 0
+
+[node name="SidebarBuyEquipment" parent="." instance=ExtResource("4_ayy8k")]
+visible = false
+layout_mode = 0
+
+[node name="SidebarBuy" parent="." instance=ExtResource("5_bg2jp")]
+visible = false
+layout_mode = 0
+
 [node name="SidebarHome" parent="." instance=ExtResource("2_rev8c")]
 layout_mode = 0
-script = ExtResource("3_6qwjd")
