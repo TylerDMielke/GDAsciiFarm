@@ -1,12 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://cg8jqqwny6qsa"]
+[gd_scene load_steps=5 format=3 uid="uid://cg8jqqwny6qsa"]
 
 [ext_resource type="Script" path="res://scripts/test_level.gd" id="1_22tv3"]
 [ext_resource type="PackedScene" uid="uid://wllrb68jnwlu" path="res://scenes/game_map.tscn" id="2_my3k6"]
 [ext_resource type="PackedScene" uid="uid://c3f4dhwwdgihw" path="res://scenes/game_interface.tscn" id="3_1gpwc"]
+[ext_resource type="PackedScene" uid="uid://e6lscp4ceuxi" path="res://scenes/spawner.tscn" id="3_dt47w"]
 
 [node name="TestLevel" type="Node2D"]
 script = ExtResource("1_22tv3")
 
 [node name="GameMap" parent="." instance=ExtResource("2_my3k6")]
+
+[node name="Spawner" parent="." instance=ExtResource("3_dt47w")]
+position = Vector2(550.337, -71.5013)
 
 [node name="GameInterface" parent="." instance=ExtResource("3_1gpwc")]

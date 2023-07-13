@@ -21,11 +21,11 @@ func _process(_delta):
 
 func _on_item_pressed(id: int) -> void:
 	if id == 0:
-		print_debug("Tractor Pressed")
+		Globals.spawn_entity.emit(Globals.ENTITY.TRACTOR)
 	elif id == 1:
-		print_debug("Plow Pressed")
+		Globals.spawn_entity.emit(Globals.ENTITY.PLOW)
 	elif id == 2:
-		print_debug("Planter Pressed")
+		Globals.spawn_entity.emit(Globals.ENTITY.PLANTER)
 
 
 func _on_back_pressed() -> void:
