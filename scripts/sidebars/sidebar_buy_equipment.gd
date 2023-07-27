@@ -29,6 +29,7 @@ func _on_item_pressed(id: int) -> void:
 
 
 func _on_back_pressed() -> void:
+	StateManager.update_input_state.emit(StateManager.INPUT_STATE.DEFAULT)
 	if get_parent().has_signal("display_sidebar"):
 		get_parent().display_sidebar.emit("buy")
 

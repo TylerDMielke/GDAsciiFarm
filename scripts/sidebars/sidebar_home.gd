@@ -17,7 +17,6 @@ func _on_item_pressed(id: int):
 	if get_parent().has_signal("display_sidebar"):
 		if id == 0:
 			get_parent().display_sidebar.emit("buy")
-			print_debug("Buy Pressed")
 		elif id == 1:
 			print_debug("Sell Pressed")
 

@@ -30,6 +30,11 @@ func _get_color_layer(tilemap: TileMap, color: Color) -> int:
 	return new_layer_idx
 
 
+func erase_cell(coord: Vector2i, tile_map: TileMap):
+	for layer_idx in range(tile_map.get_layers_count()):
+		tile_map.erase_cell(layer_idx, coord)
+
+
 func update_foreground(coord: Vector2i, glyph: Vector2i, color: Color) -> void:
 	# Update a tile on the foreground tilemap
 	# Args:
@@ -37,8 +42,7 @@ func update_foreground(coord: Vector2i, glyph: Vector2i, color: Color) -> void:
 	#	glyph: The glyph that should be placed at the coordinate.
 	#	color: The color that the glyph should be.
 	var color_layer_idx: int = _get_color_layer(foreground, color)
-	for layer_idx in range(foreground.get_layers_count()):
-		foreground.erase_cell(layer_idx, coord)
+	erase_cell(coord, foreground)
 	foreground.set_cell(color_layer_idx, coord, 0, glyph)
 
 
@@ -49,8 +53,7 @@ func update_background(coord: Vector2i, glyph: Vector2i, color: Color) -> void:
 	#	glyph: The glyph that should be placed at the coordinate.
 	#	color: The color that the glyph should be.
 	var color_layer_idx: int = _get_color_layer(background, color)
-	for layer_idx in range(background.get_layers_count()):
-		background.erase_cell(layer_idx, coord)
+	erase_cell(coord, background)
 	background.set_cell(color_layer_idx, coord, 0, glyph)
 
 
