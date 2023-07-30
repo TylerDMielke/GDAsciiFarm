@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://wllrb68jnwlu"]
+[gd_scene load_steps=4 format=3 uid="uid://wllrb68jnwlu"]
 
 [ext_resource type="Script" path="res://scripts/game_map.gd" id="1_lv0ab"]
 [ext_resource type="PackedScene" uid="uid://bv0ux3dbjh8v" path="res://scenes/tile_map_myne.tscn" id="2_e7h3h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tfi7u"]
 
 [node name="GameMap" type="Node2D"]
 position = Vector2(224, 0)
@@ -12,3 +14,9 @@ layer_0/name = "white"
 
 [node name="Foreground" parent="." instance=ExtResource("2_e7h3h")]
 layer_0/name = "white"
+
+[node name="Boundary" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundary"]
+shape = SubResource("RectangleShape2D_tfi7u")
+debug_color = Color(0.92549, 0.172549, 0.231373, 0.501961)

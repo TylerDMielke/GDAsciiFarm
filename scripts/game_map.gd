@@ -1,9 +1,12 @@
 extends Node2D
 
-@export var map_orig: Vector2i = Vector2i(0,0)
-@export var map_size: Vector2i = Vector2i(DisplayServer.window_get_size() / Vector2i(16, 16))
+
 @onready var foreground: TileMap = $Foreground
 @onready var background: TileMap = $Background
+@onready var boundary: Area2D = $Boundary
+
+var map_orig: Vector2i = Vector2i(0,0)
+var map_size: Vector2i = Vector2i((DisplayServer.window_get_size() - Vector2i(position)) / Globals.grid_size)
 
 var TILES = {
 	"PERIOD": Vector2i(14, 2),
@@ -13,11 +16,31 @@ var TILES = {
 
 
 func _ready():
-	pass
+	boundary.mouse_entered.connect(_on_mouse_entered)
+	boundary.mouse_exited.connect(_on_mouse_exited)
+
+	_initialize_boundary()
 
 
 func _process(_delta):
 	pass
+
+
+func _on_mouse_entered() -> void:
+	Globals.mouse_entered_game_map.emit()
+
+
+func _on_mouse_exited() -> void:
+	Globals.mouse_exited_game_map.emit()
+
+
+func _initialize_boundary() -> void:
+	boundary.position = Vector2(map_size * Globals.grid_size) / Vector2(2, 2)
+	var collision_shape: CollisionShape2D = boundary.get_node("CollisionShape2D")
+	var rectangle_shape: RectangleShape2D = RectangleShape2D.new()
+	# Not sure why the Vector2.ONE is needed...
+	rectangle_shape.size = Vector2(map_size * Globals.grid_size) - Vector2.ONE
+	collision_shape.shape = rectangle_shape
 
 
 func _get_color_layer(tilemap: TileMap, color: Color) -> int:
@@ -30,49 +53,49 @@ func _get_color_layer(tilemap: TileMap, color: Color) -> int:
 	return new_layer_idx
 
 
-func erase_cell(coord: Vector2i, tile_map: TileMap):
+## Get the local position, [param local_position], as a cell position on the tilemap. If trying to map a global 
+## postion, use the [method Node2D.to_local] before passing to this function.
+func get_mouse_position(local_position: Vector2) -> Vector2i:
+	var mouse_pos = foreground.local_to_map(local_position)
+	# TODO: This is a hack. Figure out how to detect if the mouse is over the game map and only return a value then.
+	var magic_number = 14
+	# Godot seems to be mapping the global positions with the global orgin at 0,0 relative to the game screen. Since
+	# The gamemap's origin is offset, by 14 tiles worth of pixels, we must adjust. 
+	return mouse_pos - Vector2i(magic_number, 0)
+
+
+## Clear all color layers on the provided tilemap, [param tile_map], at the coordinate, [param coord]
+func erase_cell(coord: Vector2i, tile_map: TileMap) -> void:
 	for layer_idx in range(tile_map.get_layers_count()):
 		tile_map.erase_cell(layer_idx, coord)
 
 
+## Update a tile to be the glpyh, [param glyph], of color, [param color], on the foreground tilemap at coordinate, 
+## [param coord].
 func update_foreground(coord: Vector2i, glyph: Vector2i, color: Color) -> void:
-	# Update a tile on the foreground tilemap
-	# Args:
-	# 	coord: The coordinate on the foreground tilemap that will be updated.
-	#	glyph: The glyph that should be placed at the coordinate.
-	#	color: The color that the glyph should be.
 	var color_layer_idx: int = _get_color_layer(foreground, color)
 	erase_cell(coord, foreground)
 	foreground.set_cell(color_layer_idx, coord, 0, glyph)
 
 
+## Update a tile to be the glyph, [param glyph], of color, [param color], on the background tilemap at coordinate, 
+## [param coord].
 func update_background(coord: Vector2i, glyph: Vector2i, color: Color) -> void:
-	# Update a tile on the background tilemap
-	# Args:
-	# 	coord: The coordinate on the background tilemap that will be updated.
-	#	glyph: The glyph that should be placed at the coordinate.
-	#	color: The color that the glyph should be.
 	var color_layer_idx: int = _get_color_layer(background, color)
 	erase_cell(coord, background)
 	background.set_cell(color_layer_idx, coord, 0, glyph)
 
 
+## Fill the foreground tilemap with the provided glyph, [param glyph], colored with the provided color, [param color].
 func fill_foreground(glyph: Vector2i, color: Color) -> void:
-	# Fill the foreground tilemap with a single glyph
-	# Args:
-	#	glyph: The glyph that the foreground should be filled with.
-	#	color: The color that the glyph should be.
 	for x in range(map_orig.x, map_size.x):
 		for y in range(map_orig.y, map_size.y):
 			var update_cell = Vector2i(x,y)
 			update_foreground(update_cell, glyph, color)
 
 
+## Fill the background tilemap with the provided glyph, [param glyph], colored with the provided color, [param color].
 func fill_background(glyph: Vector2i, color: Color) -> void:
-	# Fill the foreground tilemap with a single glyph
-	# Args:
-	#	glyph: The glyph that the foreground should be filled with.
-	#	color: The color that the glyph should be.
 	for x in range(map_orig.x, map_size.x):
 		for y in range(map_orig.y, map_size.y):
 			var update_cell = Vector2i(x,y)
