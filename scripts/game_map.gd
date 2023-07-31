@@ -8,6 +8,10 @@ extends Node2D
 var map_orig: Vector2i = Vector2i(0,0)
 var map_size: Vector2i = Vector2i((DisplayServer.window_get_size() - Vector2i(position)) / Globals.grid_size)
 
+var _mouse_last_postition: Vector2 = Vector2.ZERO
+var _has_mouse_changed_cells: bool = false
+var _is_mouse_in_gamemap: bool = false
+
 var TILES = {
 	"PERIOD": Vector2i(14, 2),
 	"SQUARE": Vector2i(11, 13),
@@ -27,18 +31,26 @@ func _process(_delta):
 
 
 func _on_mouse_entered() -> void:
+	# Wrap the internal Area2D.mouse_entered signal.
 	Globals.mouse_entered_game_map.emit()
+
+	# Tell the gamemap that the mouse has left it.
+	_is_mouse_in_gamemap = true
 
 
 func _on_mouse_exited() -> void:
+	# Wrap the internal Area2D.mouse_exited signal.
 	Globals.mouse_exited_game_map.emit()
+
+	# Tell the gamemap that the mouse has left it.
+	_is_mouse_in_gamemap = false
 
 
 func _initialize_boundary() -> void:
 	boundary.position = Vector2(map_size * Globals.grid_size) / Vector2(2, 2)
 	var collision_shape: CollisionShape2D = boundary.get_node("CollisionShape2D")
 	var rectangle_shape: RectangleShape2D = RectangleShape2D.new()
-	# Not sure why the Vector2.ONE is needed...
+	# Think the Vector2.ONE is needed because of rounding during Vector2 <--> Vector2i conversions.
 	rectangle_shape.size = Vector2(map_size * Globals.grid_size) - Vector2.ONE
 	collision_shape.shape = rectangle_shape
 
