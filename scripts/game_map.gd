@@ -8,9 +8,9 @@ extends Node2D
 var map_orig: Vector2i = Vector2i(0,0)
 var map_size: Vector2i = Vector2i((DisplayServer.window_get_size() - Vector2i(position)) / Globals.grid_size)
 
-var _mouse_last_postition: Vector2 = Vector2.ZERO
-var _has_mouse_changed_cells: bool = false
-var _is_mouse_in_gamemap: bool = false
+var mouse_last_postition: Vector2i = Vector2i.ZERO
+var has_mouse_changed_cells: bool = false
+var is_mouse_in_gamemap: bool = false
 
 var TILES = {
 	"PERIOD": Vector2i(14, 2),
@@ -27,6 +27,14 @@ func _ready():
 
 
 func _process(_delta):
+	if is_mouse_in_gamemap:
+		var mouse_new_position: Vector2i = get_mouse_position(get_global_mouse_position())
+		if mouse_new_position != mouse_last_postition:
+			var previous_glyph: Dictionary = {
+				"glyph": 
+				"color": 
+			}
+			Globals.mouse_changed_gamemap_cell.emit(mouse_new_position, mouse_last_postition, )
 	pass
 
 
@@ -35,7 +43,10 @@ func _on_mouse_entered() -> void:
 	Globals.mouse_entered_game_map.emit()
 
 	# Tell the gamemap that the mouse has left it.
-	_is_mouse_in_gamemap = true
+	is_mouse_in_gamemap = true
+
+	# Start tracking the mouse relative to the gamemap.
+	mouse_last_postition = get_mouse_position(get_global_mouse_position())
 
 
 func _on_mouse_exited() -> void:
@@ -43,7 +54,7 @@ func _on_mouse_exited() -> void:
 	Globals.mouse_exited_game_map.emit()
 
 	# Tell the gamemap that the mouse has left it.
-	_is_mouse_in_gamemap = false
+	is_mouse_in_gamemap = false
 
 
 func _initialize_boundary() -> void:
@@ -88,6 +99,12 @@ func update_foreground(coord: Vector2i, glyph: Vector2i, color: Color) -> void:
 	var color_layer_idx: int = _get_color_layer(foreground, color)
 	erase_cell(coord, foreground)
 	foreground.set_cell(color_layer_idx, coord, 0, glyph)
+
+
+## Get the information regarding the glyph in the foreground at coordinate, [param coord]. Returns a dictionary with 
+## two key value pairs, "glyph", holding a [Vector2i], and "color", holding a [Color].
+func get_foreground_glyph(coord: Vector2i) -> Dictionary:
+	pass
 
 
 ## Update a tile to be the glyph, [param glyph], of color, [param color], on the background tilemap at coordinate, 
