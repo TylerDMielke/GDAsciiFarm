@@ -1,40 +1,32 @@
 extends Node2D
 
+# Support scripts
+var glyph_class = preload("res://scripts/glyph.gd")
+var map_data_class = preload("res://scripts/map_data.gd")
 
-@onready var foreground: TileMap = $Foreground
-@onready var background: TileMap = $Background
-@onready var boundary: Area2D = $Boundary
-
-var map_orig: Vector2i = Vector2i(0,0)
-var map_size: Vector2i = Vector2i((DisplayServer.window_get_size() - Vector2i(position)) / Globals.grid_size)
-
+var map_data: MapData
 var mouse_last_postition: Vector2i = Vector2i.ZERO
 var has_mouse_changed_cells: bool = false
 var is_mouse_in_gamemap: bool = false
 
-var TILES = {
-	"PERIOD": Vector2i(14, 2),
-	"SQUARE": Vector2i(11, 13),
-	"STRAIGHT_FACE": Vector2i(0, 4),
-}
+@onready var foreground: TileMap = $Foreground
+@onready var background: TileMap = $Background
+@onready var boundary: Area2D = $Boundary
 
 
 func _ready():
 	boundary.mouse_entered.connect(_on_mouse_entered)
 	boundary.mouse_exited.connect(_on_mouse_exited)
 
-	_initialize_boundary()
+	map_data = map_data_class.new(Vector2i(self.position))
+
+	_initialize_boundary(map_data.size)
+
+	fill_foreground(Globals.TILE_MAP_TILE_VALUES.PERIOD, Color.GREEN)
+	fill_background(Globals.TILE_MAP_TILE_VALUES.SQUARE, Color.BLACK)
 
 
 func _process(_delta):
-	if is_mouse_in_gamemap:
-		var mouse_new_position: Vector2i = get_mouse_position(get_global_mouse_position())
-		if mouse_new_position != mouse_last_postition:
-			var previous_glyph: Dictionary = {
-				"glyph": 
-				"color": 
-			}
-			Globals.mouse_changed_gamemap_cell.emit(mouse_new_position, mouse_last_postition, )
 	pass
 
 
@@ -47,33 +39,6 @@ func _on_mouse_entered() -> void:
 
 	# Start tracking the mouse relative to the gamemap.
 	mouse_last_postition = get_mouse_position(get_global_mouse_position())
-
-
-func _on_mouse_exited() -> void:
-	# Wrap the internal Area2D.mouse_exited signal.
-	Globals.mouse_exited_game_map.emit()
-
-	# Tell the gamemap that the mouse has left it.
-	is_mouse_in_gamemap = false
-
-
-func _initialize_boundary() -> void:
-	boundary.position = Vector2(map_size * Globals.grid_size) / Vector2(2, 2)
-	var collision_shape: CollisionShape2D = boundary.get_node("CollisionShape2D")
-	var rectangle_shape: RectangleShape2D = RectangleShape2D.new()
-	# Think the Vector2.ONE is needed because of rounding during Vector2 <--> Vector2i conversions.
-	rectangle_shape.size = Vector2(map_size * Globals.grid_size) - Vector2.ONE
-	collision_shape.shape = rectangle_shape
-
-
-func _get_color_layer(tilemap: TileMap, color: Color) -> int:
-	for layer_idx in range(tilemap.get_layers_count()):
-		if tilemap.get_layer_modulate(layer_idx) == color:
-			return layer_idx
-	var new_layer_idx: int = tilemap.get_layers_count()
-	tilemap.add_layer(new_layer_idx)
-	tilemap.set_layer_modulate(new_layer_idx, color)
-	return new_layer_idx
 
 
 ## Get the local position, [param local_position], as a cell position on the tilemap. If trying to map a global 
@@ -101,12 +66,6 @@ func update_foreground(coord: Vector2i, glyph: Vector2i, color: Color) -> void:
 	foreground.set_cell(color_layer_idx, coord, 0, glyph)
 
 
-## Get the information regarding the glyph in the foreground at coordinate, [param coord]. Returns a dictionary with 
-## two key value pairs, "glyph", holding a [Vector2i], and "color", holding a [Color].
-func get_foreground_glyph(coord: Vector2i) -> Dictionary:
-	pass
-
-
 ## Update a tile to be the glyph, [param glyph], of color, [param color], on the background tilemap at coordinate, 
 ## [param coord].
 func update_background(coord: Vector2i, glyph: Vector2i, color: Color) -> void:
@@ -117,15 +76,42 @@ func update_background(coord: Vector2i, glyph: Vector2i, color: Color) -> void:
 
 ## Fill the foreground tilemap with the provided glyph, [param glyph], colored with the provided color, [param color].
 func fill_foreground(glyph: Vector2i, color: Color) -> void:
-	for x in range(map_orig.x, map_size.x):
-		for y in range(map_orig.y, map_size.y):
+	for x in range(map_data.size.x):
+		for y in range(map_data.size.y):
 			var update_cell = Vector2i(x,y)
 			update_foreground(update_cell, glyph, color)
 
 
 ## Fill the background tilemap with the provided glyph, [param glyph], colored with the provided color, [param color].
 func fill_background(glyph: Vector2i, color: Color) -> void:
-	for x in range(map_orig.x, map_size.x):
-		for y in range(map_orig.y, map_size.y):
+	for x in range(map_data.size.x):
+		for y in range(map_data.size.y):
 			var update_cell = Vector2i(x,y)
 			update_background(update_cell, glyph, color)
+
+
+func _on_mouse_exited() -> void:
+	# Wrap the internal Area2D.mouse_exited signal.
+	Globals.mouse_exited_game_map.emit()
+
+	# Tell the gamemap that the mouse has left it.
+	is_mouse_in_gamemap = false
+
+
+func _initialize_boundary(map_size: Vector2i) -> void:
+	boundary.position = Vector2(map_size * Globals.GRID_SIZE) / Vector2(2, 2)
+	var collision_shape: CollisionShape2D = boundary.get_node("CollisionShape2D")
+	var rectangle_shape: RectangleShape2D = RectangleShape2D.new()
+	# Think the Vector2.ONE is needed because of rounding during Vector2 <--> Vector2i conversions.
+	rectangle_shape.size = Vector2(map_size * Globals.GRID_SIZE) - Vector2.ONE
+	collision_shape.shape = rectangle_shape
+
+
+func _get_color_layer(tilemap: TileMap, color: Color) -> int:
+	for layer_idx in range(tilemap.get_layers_count()):
+		if tilemap.get_layer_modulate(layer_idx) == color:
+			return layer_idx
+	var new_layer_idx: int = tilemap.get_layers_count()
+	tilemap.add_layer(new_layer_idx)
+	tilemap.set_layer_modulate(new_layer_idx, color)
+	return new_layer_idx

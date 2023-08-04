@@ -6,8 +6,6 @@ extends Node2D
 
 
 func _ready():
-	game_map.fill_foreground(game_map.TILES.PERIOD, Color.GREEN)
-	game_map.fill_background(game_map.TILES.SQUARE, Color.BLACK)
 	_initialize_debug_timer()
 
 

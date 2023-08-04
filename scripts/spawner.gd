@@ -15,7 +15,7 @@ func _process(_delta):
 	if is_spawning and is_mouse_in_game_map:
 		var game_map: Node2D = get_parent().get_node("GameMap")
 		var mouse_position: Vector2i = game_map.get_mouse_position(get_global_mouse_position())
-		game_map.update_foreground(mouse_position, game_map.TILES.STRAIGHT_FACE, Color.CHARTREUSE)
+		game_map.update_foreground(mouse_position, Globals.TILE_MAP_TILE_VALUES.STRAIGHT_FACE, Color.CHARTREUSE)
 
 
 func _on_spawn_entity(type: Globals.ENTITY):
