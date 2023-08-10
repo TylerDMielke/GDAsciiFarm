@@ -5,6 +5,9 @@ var glyph_class = preload("res://scripts/glyph.gd")
 var map_data_class = preload("res://scripts/map_data.gd")
 
 var map_data: MapData
+var size: Vector2i = Vector2i((DisplayServer.window_get_size() - Vector2i(position)) / Globals.GRID_SIZE)
+var terrain: Array[Array] = []
+
 var mouse_last_postition: Vector2i = Vector2i.ZERO
 var has_mouse_changed_cells: bool = false
 var is_mouse_in_gamemap: bool = false
